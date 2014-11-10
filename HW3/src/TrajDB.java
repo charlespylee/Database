@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader; 
-
+import java.io.File;
 public class TrajDB {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -11,9 +11,10 @@ public class TrajDB {
 			try{
 				cmdStr=br.readLine();
 				if(cmdStr.toLowerCase().equals("exit")) break;
-				System.out.println("your input is "+cmdStr);
+//				System.out.println("your input is "+cmdStr);
 				String[] subStrings=cmdStr.split(" ");
-				String cmd1=subStrings[0].toLowerCase();
+				String cmd1=subStrings[0];
+				System.out.println("cmd1="+cmd1);
 				String tname="";
 				String id="";
 				String sequence="";
@@ -25,8 +26,11 @@ public class TrajDB {
 					sequence=subStrings[4];
 					insert(tname,sequence);
 				}else if(cmd1.toLowerCase().equals("delete")){
+					System.out.println("if delete");
 					tname=subStrings[2];
 					id=subStrings[4];
+					System.out.println("tname="+tname);
+					System.out.println("id="+id);
 					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve")){
 					tname=subStrings[2];
@@ -62,6 +66,17 @@ public class TrajDB {
 
 	private static void delete(String tname, String id) {
 		// TODO Auto-generated method stub
+		System.out.println("in delete function");
+		try{
+			File file = new File("../Data/"+tname+".txt");
+			if(file.delete()){
+				System.out.println(file.getName()+" is delelted");
+			}else{
+				System.out.println("Delete operation is failed.");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 
