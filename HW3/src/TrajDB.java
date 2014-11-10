@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader; 
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TrajDB {
 	public static void main(String[] args) {
@@ -31,7 +33,7 @@ public class TrajDB {
 					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve")){
 					tname=subStrings[2];
-					String cmd2=subStrings[4];
+					String cmd2=subStrings[3];  //retrieve from traj1 trajectory 32
 					if (cmd2.toLowerCase().equals("trajectory")){
 						id=subStrings[4];
 						retrieveTraj(tname,id);
@@ -58,7 +60,26 @@ public class TrajDB {
 
 	private static void retrieveTraj(String tname, String id) {
 		// TODO Auto-generated method stub
-		
+		try{
+		    //All your IO Operations
+			System.out.println("caonima");
+			//System.out.println(tname+"/"+id+".plt");
+			System.out.println(id+".plt");
+			String curPath = System.getProperty("user.dir");
+			System.out.println(curPath+"/"+id+".plt");
+			FileReader fr = new FileReader(curPath+"/"+id+".plt");
+			//BufferedReader br = new BufferedReader(new FileReader(curPath+"/"+id+".plt"));
+			BufferedReader br = new BufferedReader(fr);
+			//System.out.println(br);
+			System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			String line;
+			while((line = br.readLine()) != null){
+				System.out.println(line);
+			}
+		}
+	    catch(IOException ioe){
+			//Handle exception here, most of the time you will just log it.
+	    }
 	}
 
 	private static void delete(String tname, String id) {
