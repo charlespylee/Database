@@ -4,14 +4,13 @@ import java.io.InputStreamReader;
 public class TrajDB {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		boolean isExit=false;
 		String cmdStr="";
-		while(!isExit){
+		while(true){
 			System.out.println("command:");
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try{
 				cmdStr=br.readLine();
-				if(cmdStr.toLowerCase().equals("exit")){isExit=false; break;}
+				if(cmdStr.toLowerCase().equals("exit")) break;
 				System.out.println("your input is "+cmdStr);
 				String[] subStrings=cmdStr.split(" ");
 				String cmd1=subStrings[0].toLowerCase();
