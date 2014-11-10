@@ -129,7 +129,16 @@ public class TrajDB {
 			File files = new File("../Data/"+tname+"/Trajectory/");
 			if (!files.exists()) {
 				if (files.mkdirs()) {
-					System.out.println("New Trajectory set "+tname+" are created!");
+					 try {
+						 File file = new File("../Data/"+tname+"/index.txt");
+						 BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+						 bw.write("0");
+						 bw.close();
+						 System.out.println("New Trajectory set "+tname+" are created!");
+					 }catch ( IOException e ) {
+						 System.out.println("index file in Trajectory set "+tname+" can't be created!");
+				         e.printStackTrace();
+				        }
 				} else {
 					System.out.println("Failed to create "+ tname);
 				}
