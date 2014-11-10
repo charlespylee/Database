@@ -5,7 +5,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader; 
+<<<<<<< HEAD
+import java.io.FileReader;
+import java.io.IOException;
+
+=======
 import java.io.File;
+>>>>>>> 7c70ac1853e88500d65caa1a9f69593bc632a4de
 public class TrajDB {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -36,7 +42,11 @@ public class TrajDB {
 					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve") && (subStrings.length==5 || subStrings.length==6)){
 					tname=subStrings[2];
+<<<<<<< HEAD
+					String cmd2=subStrings[3];  //retrieve from traj1 trajectory 32
+=======
 					String cmd2=subStrings[3];
+>>>>>>> 7c70ac1853e88500d65caa1a9f69593bc632a4de
 					if (cmd2.toLowerCase().equals("trajectory")){
 						id=subStrings[4];
 						retrieveTraj(tname,id);
@@ -62,6 +72,28 @@ public class TrajDB {
 
 	private static void retrieveTraj(String tname, String id) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
+		try{
+		    //All your IO Operations
+			System.out.println("caonima");
+			//System.out.println(tname+"/"+id+".plt");
+			System.out.println(id+".plt");
+			String curPath = System.getProperty("user.dir");
+			System.out.println(curPath+"/"+id+".plt");
+			FileReader fr = new FileReader(curPath+"/"+id+".plt");
+			//BufferedReader br = new BufferedReader(new FileReader(curPath+"/"+id+".plt"));
+			BufferedReader br = new BufferedReader(fr);
+			//System.out.println(br);
+			System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			String line;
+			while((line = br.readLine()) != null){
+				System.out.println(line);
+			}
+		}
+	    catch(IOException ioe){
+			//Handle exception here, most of the time you will just log it.
+	    }
+=======
 	    String returnValue = "";
 	    FileReader file = null;
 	    String line = "";
@@ -80,6 +112,7 @@ public class TrajDB {
 	    }
 		
 		
+>>>>>>> 7c70ac1853e88500d65caa1a9f69593bc632a4de
 	}
 
 	private static void delete(String tname, String id) {
