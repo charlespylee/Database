@@ -30,7 +30,7 @@ public class TrajDB {
 					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve")){
 					tname=subStrings[2];
-					String cmd2=subStrings[4];
+					String cmd2=subStrings[3];
 					if (cmd2.toLowerCase().equals("trajectory")){
 						id=subStrings[4];
 						retrieveTraj(tname,id);
