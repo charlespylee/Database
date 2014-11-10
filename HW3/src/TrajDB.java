@@ -20,20 +20,24 @@ public class TrajDB {
 				String sequence="";
 				if(cmd1.toLowerCase().equals("create")){
 					tname=subStrings[1];
-					sequence=subStrings[5];
-					String[] subSequences=sequence.split(",");
+					create(tname);
 				}else if(cmd1.toLowerCase().equals("insert")){
 					tname=subStrings[2];
+					sequence=subStrings[4];
+					insert(tname,sequence);
 				}else if(cmd1.toLowerCase().equals("delete")){
 					tname=subStrings[2];
 					id=subStrings[4];
+					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve")){
 					tname=subStrings[2];
 					String cmd2=subStrings[4];
 					if (cmd2.toLowerCase().equals("trajectory")){
 						id=subStrings[4];
+						retrieveTraj(tname,id);
 					}else{
 						id=subStrings[5];
+						retrieveCountOfRecords(tname,id);
 					}
 				}else{
 					System.out.println("your input command is wrong");
@@ -45,6 +49,31 @@ public class TrajDB {
 	        }
 		}
 
+	}
+
+	private static void retrieveCountOfRecords(String tname, String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void retrieveTraj(String tname, String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void delete(String tname, String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void insert(String tname, String sequence) {
+		// TODO Auto-generated method stub
+		String[] subSequences=sequence.split(",");
+	}
+
+	private static void create(String tname) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
