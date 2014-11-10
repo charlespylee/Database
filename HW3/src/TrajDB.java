@@ -26,11 +26,8 @@ public class TrajDB {
 					sequence=subStrings[4];
 					insert(tname,sequence);
 				}else if(cmd1.toLowerCase().equals("delete")){
-					System.out.println("if delete");
 					tname=subStrings[2];
 					id=subStrings[4];
-					System.out.println("tname="+tname);
-					System.out.println("id="+id);
 					delete(tname,id);
 				}else if(cmd1.toLowerCase().equals("retrieve")){
 					tname=subStrings[2];
@@ -62,13 +59,13 @@ public class TrajDB {
 	private static void retrieveTraj(String tname, String id) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 	private static void delete(String tname, String id) {
 		// TODO Auto-generated method stub
-		System.out.println("in delete function");
 		try{
-			File file = new File("../Data/"+tname+".txt");
+			File file = new File("../Data/"+tname+"/Trajectory/"+id+".plt");
 			if(file.delete()){
 				System.out.println(file.getName()+" is delelted");
 			}else{
@@ -87,6 +84,19 @@ public class TrajDB {
 
 	private static void create(String tname) {
 		// TODO Auto-generated method stub
+		try{
+			System.out.println("in create function");
+			File files = new File("../Data/"+tname+"/Trajectory/");
+			if (!files.exists()) {
+				if (files.mkdirs()) {
+					System.out.println("New Trajectory set "+tname+" are created!");
+				} else {
+					System.out.println("Failed to create "+ tname);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 
