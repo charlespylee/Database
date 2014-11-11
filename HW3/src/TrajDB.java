@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import java.io.File;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 public class TrajDB {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -29,7 +33,7 @@ public class TrajDB {
 				if(cmd1.toLowerCase().equals("create") && subStrings.length==2){
 					tname=subStrings[1];
 					create(tname);
-				}else if(cmd1.toLowerCase().equals("insert") && subStrings.length==5){
+				}else if(cmd1.toLowerCase().equals("insert")){
 					tname=subStrings[2];
 					sequence=subStrings[4];
 					insert(tname,sequence);
@@ -119,29 +123,102 @@ public class TrajDB {
 		
 	}
 
-	private static void insert(String tname, String sequence) {
+	private static void insert(String tname, String trajectorys) {
 		// TODO Auto-generated method stub
-		String[] subSequences=sequence.split(",");
+		System.out.println(trajectorys);
+		String[] trajectory=trajectorys.split(";");
+		String[] subSequence_init=trajectory[0].split(",");
+		String[] subDates=subSequence_init[5].split("-");
+		String[] subTimes=subSequence_init[6].split(":");
+		String id = subDates[0]+subDates[1]+subDates[2]+subTimes[0]+subTimes[1]+subTimes[2];
+		double lat_max=0;
+		double lat_min=Double.MAX_VALUE;
+		double lon_max=0;
+		double lon_min=Double.MAX_VALUE;
+		double alt_max=0;
+		double alt_min=Double.MAX_VALUE;
+		long numOfDate_max=0;
+		long numOfDate_min=Long.MAX_VALUE;
+		Date date_max=new Date(0);
+		Date date_min=new Date(99999);
 		
-		try {	 
-			String id="test";
-			File file = new File("../Data/"+tname+"/Trajectory/"+id+".plt");
- 
-			// if file doesnt exists, then create it
-			if (file.exists()) {
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(sequence);
-				bw.close();
-			}else{
-				System.out.println("the Trajectory Set could not be found!");
+		
+		for(int i=0;i<trajectory.length;i++){
+			System.out.println(trajectory.length);
+			String[] subSequences=trajectory[i].split(",");
+
+			System.out.println("before parse");
+			
+			double lat=Double.parseDouble(subSequences[0]);
+			System.out.println("after parse Double");
+			double lon=Double.parseDouble(subSequences[1]);
+			double alt=Double.parseDouble(subSequences[4]);
+			long numOfDate=Long.parseLong(subSequences[3]);
+			System.out.println("after numOfDate");
+			
+			Date date=new Date(0);
+
+			if(lat>lat_max) lat_max=lat;
+			if(lat<lat_min) lat_min=lat;
+			if(lon>lon_max) lon_max=lon;
+			if(lon<lon_min) lon_min=lon;
+			if(alt>alt_max) alt_max=alt;
+			if(alt<alt_min) alt_min=alt;
+			if(numOfDate>numOfDate_max) numOfDate_max=numOfDate;
+			if(numOfDate<numOfDate_min) numOfDate_min=numOfDate;
+			if(date.after(date_max)) date_max=date;
+			if(date.before(date_min)) date_min=date;
+			System.out.println("before try");
+			
+			try {
+				System.out.println(id+"(in try)");
+				File file = new File("../Data/"+tname+"/Trajectory/"+id+".plt");
+				if (file.exists()) {
+					FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(trajectory[i]+'\n');
+					bw.close();
+					
+				}else{
+					file.createNewFile();
+					System.out.println(id+"have been new");
+					FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(trajectory[i]+'\n');
+					bw.close();
+				}
+	 
+				System.out.println("Trajectory was successfully inserted!");
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
- 
-			System.out.println("Trajectory was successfully inserted!");
- 
-		} catch (IOException e) {
+
+		}
+		
+		try{
+			File indexFile = new File("../Data/"+tname+"/index.txt");
+			FileWriter fw_i= new FileWriter(indexFile.getAbsoluteFile(),true);
+			BufferedWriter bw_i = new BufferedWriter(fw_i);
+			String lat_max_str=Double.toString(lat_max);
+			String lat_min_str=Double.toString(lat_min);
+			String lon_max_str=Double.toString(lon_max);
+			String lon_min_str=Double.toString(lon_min);
+			String alt_max_str=Double.toString(alt_max);
+			String alt_min_str=Double.toString(alt_min);
+			String numOfDate_max_str=Double.toString(numOfDate_max);
+			String numOfDate_min_str=Double.toString(numOfDate_min);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String date_max_str=dateFormat.format(date_max);
+			String date_min_str=dateFormat.format(date_min);
+			
+			bw_i.write(id+","+"1"+","+lat_max_str+","+lat_min_str+","+lon_max_str+","+lon_min_str+","+alt_max_str+","+alt_min_str+","+numOfDate_max_str+","+numOfDate_min_str+","+date_max_str+","+date_min_str+'\n');
+			bw_i.close();
+			
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	private static void create(String tname) {
